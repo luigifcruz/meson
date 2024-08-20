@@ -503,7 +503,7 @@ class CMakeDependency(ExternalDependency):
                     rtgt = resolve_cmake_trace_targets(j, self.traceparser, self.env, clib_compiler=self.clib_compiler)
                     self.link_args += rtgt.libraries
                     self.compile_args += [f'-I{x}' for x in rtgt.include_directories]
-                    self.compile_args += [f'-isystem {x}' for x in rtgt.include_system_directories]
+                    self.compile_args += [f'-isystem{x}' for x in rtgt.include_system_directories]
                     self.compile_args += rtgt.public_compile_opts
                 mlog.debug(f'using old-style CMake variables for dependency {name}')
                 mlog.debug(f'Include Dirs:         {incDirs}')
@@ -557,7 +557,7 @@ class CMakeDependency(ExternalDependency):
         mlog.debug(f'Compiler Options:     {compileOptions}')
         mlog.debug(f'Libraries:            {libraries}')
 
-        self.compile_args = compileOptions + [f'-I{x}' for x in incDirs]
+        self.compile_args = compileOptions + [f'-I{x}' for x in incDirs] + [f'-isystem{x}' for x in incSysDirs]
         self.link_args = libraries
 
     def _get_build_dir(self) -> Path:
